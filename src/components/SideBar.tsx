@@ -10,31 +10,23 @@ interface GenreResponseProps {
   title: string;
 }
 
-export function SideBar() {
+interface SideBarProps {
+  handleClickButton: (id: number) => void;
+  selectedGenreId: number;
+}
+
+export function SideBar({ handleClickButton, selectedGenreId }: SideBarProps) {
   // Complete aqui
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
-  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
-  
+
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
     });
-
-    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
-      setSelectedGenre(response.data);
-    })
-  }, [selectedGenreId]);
-
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
+  }, []);
 
   return (
     <nav className="sidebar">
-      <header>
-        <span className="category">Categoria:<span> {selectedGenre.title}</span></span>
-      </header>
 
       <span>Watch<p>Me</p></span>
 
